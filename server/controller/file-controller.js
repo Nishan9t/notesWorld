@@ -3,7 +3,7 @@ const File = require("../models/file.js");
 
 module.exports=uploadFile=async(req,res)=>{
 
-    console.log(req);
+   
     const fileObj={
         path:req.file.path,
         name:req.file.originalname 
@@ -11,7 +11,7 @@ module.exports=uploadFile=async(req,res)=>{
     try{
         const file= await File.create(fileObj);
         console.log(file);
-
+      
         res.status(200).json({path:`http://localhost:8000/file/${file._id}`});
       
     }
