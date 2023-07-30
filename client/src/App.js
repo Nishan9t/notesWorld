@@ -8,7 +8,7 @@ function App() {
 
   const fileInputRef=useRef();
   const [file,setFile]=useState([]);
-  const [result,setResult]=useState([]);
+  const [result,setResult]=useState('');
 
  
 
@@ -39,10 +39,16 @@ function App() {
 
   const handleGet=async()=>{
     let response=await getFiles();
-    console.log(response);
+  
+    console.log(response.data);
+    setResult(response.data);
+    console.log(result);
    
 
   }
+  useEffect(()=>{
+    handleGet();
+  },[result])
 
 
   return (
@@ -53,7 +59,16 @@ function App() {
           <input type="file"  className="self-center mt-16 ml-16 hidden " ref={fileInputRef} onChange={(e)=>{setFile(e.target.files[0])}}/>
          </div>
          <button onClick={()=>handleGet()} className="self-center mt-8 text-xl border-2 py-2 px-4 rounded-lg bg-blue-600 font-mono font-bold hover:bg-green-300 ">GetFiles</button>
-       
+        
+         { result?
+           result.map(file=>{
+            return(<>
+            <li>{file.name}</li>
+            <a href={`http://localhost:8000/file/${file._id}`}>{`http://localhost:8000/file/${file._id}`}</a>
+            </>
+            );
+          }):<></>
+         }
       </div>
   );
 }
